@@ -17,12 +17,25 @@ class RoleSeeder extends Seeder
         $roles = [
             ['name' => 'Admin'],
             ['name' => 'Customer'],
-            ['name' => 'Delivery Agent']            
+            ['name' => 'Delivery Agent'],
+            ['name' => 'Editor'],
+            ['name' => 'Viewer']
         ];
 
         foreach ($roles as $row) 
         {
             Role::create($row);
+        }
+
+        $roles = [
+            'Admin' => $permissions,
+            'Editor' => ['view categories', 'update categories'],
+            'Viewer' => ['view categories'],
+        ];
+
+        foreach ($roles as $roleName => $rolePermissions) {
+            $role = Role::firstOrCreate(['name' => $roleName]);
+            $role->syncPermissions($rolePermissions);
         }
     }
 }
