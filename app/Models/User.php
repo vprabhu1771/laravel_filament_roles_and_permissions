@@ -47,4 +47,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
+        // return $this->hasRole('Admin');
+        return $this->hasRole(['Admin', 'User']);
+    }
+
+    // public function canAccessFilament(): bool
+    // {
+    //     // return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
+    //     return $this->hasRole('Admin');
+    // }
 }
