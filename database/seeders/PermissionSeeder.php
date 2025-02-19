@@ -25,5 +25,16 @@ class PermissionSeeder extends Seeder
         {
             Permission::create($row);
         }
+
+        $roles = [
+            'Admin' => $permissions,
+            'Editor' => ['view categories', 'update categories'],
+            'Viewer' => ['view categories'],
+        ];
+
+        foreach ($roles as $roleName => $rolePermissions) {
+            $role = Role::firstOrCreate(['name' => $roleName]);
+            $role->syncPermissions($rolePermissions);
+        }
     }
 }
